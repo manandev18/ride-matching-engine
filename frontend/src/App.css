@@ -1,0 +1,1060 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f5f7;
+  color: #1f2937;
+}
+
+button {
+  font-family: inherit;
+}
+
+.app {
+  min-height: 100vh;
+}
+
+/* ==========================================
+   HEADER
+========================================== */
+
+.header {
+  min-height: 70px;
+
+  background: #111827;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 12px 30px;
+}
+
+.header h1 {
+  margin: 0;
+
+  font-size: 22px;
+}
+
+.subtitle {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #9ca3af;
+
+  font-size: 12px;
+}
+
+.header-right {
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+.simulation-time {
+  color: #d1d5db;
+
+  font-size: 14px;
+
+  font-family: monospace;
+}
+
+.status {
+  color: #22c55e;
+
+  font-size: 14px;
+}
+
+/* ==========================================
+   DASHBOARD
+========================================== */
+
+.dashboard {
+  display: grid;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    380px;
+
+  gap: 20px;
+
+  padding: 20px;
+}
+
+/* ==========================================
+   MAP
+========================================== */
+
+.map-panel,
+.card {
+  background: white;
+
+  border-radius: 12px;
+
+  border: 1px solid #e5e7eb;
+}
+
+.map-panel {
+  padding: 20px;
+}
+
+.panel-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 15px;
+}
+
+.panel-header h2 {
+  margin: 0;
+
+  font-size: 20px;
+}
+
+.panel-header span {
+  color: #6b7280;
+
+  font-size: 13px;
+}
+
+.map-legend {
+  display: flex;
+
+  gap: 15px;
+
+  align-items: center;
+}
+
+.map-legend span {
+  display: flex;
+
+  align-items: center;
+
+  gap: 5px;
+
+  font-size: 12px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+
+  display: inline-block;
+
+  border-radius: 50%;
+}
+
+.driver-dot {
+  background: #22c55e;
+}
+
+.rider-dot {
+  background: #3b82f6;
+}
+
+.city-map {
+  position: relative;
+
+  width: 100%;
+  height: 600px;
+
+  background:
+    linear-gradient(#e5e7eb 1px, transparent 1px),
+    linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+
+  background-size: 50px 50px;
+
+  border: 2px solid #d1d5db;
+
+  overflow: hidden;
+}
+
+/* ==========================================
+   SEARCH RADIUS
+========================================== */
+
+.search-radius {
+  position: absolute;
+
+  transform: translate(-50%, -50%);
+
+  border: 2px dashed #2563eb;
+
+  background: rgba(37, 99, 235, 0.08);
+
+  border-radius: 50%;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+/* ==========================================
+   CANDIDATE LINES
+========================================== */
+
+.candidate-line {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+.candidate-line line {
+  stroke: #f59e0b;
+
+  stroke-width: 0.4;
+
+  stroke-dasharray: 4 4;
+
+  opacity: 0.7;
+}
+
+.candidate-line .selected-line {
+  stroke: #2563eb;
+
+  stroke-width: 0.8;
+
+  stroke-dasharray: none;
+
+  opacity: 1;
+}
+
+/* ==========================================
+   DRIVERS
+========================================== */
+
+.driver {
+  position: absolute;
+
+  width: 42px;
+  height: 42px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  font-size: 12px;
+
+  font-weight: bold;
+
+  border: 3px solid white;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  transition:
+    left 0.3s ease,
+    top 0.3s ease;
+
+  z-index: 2;
+}
+
+.driver.available {
+  background: #22c55e;
+}
+
+.driver.offered {
+  background: #f59e0b;
+}
+
+.driver.busy {
+  background: #ef4444;
+}
+
+.driver.offline {
+  background: #6b7280;
+}
+
+.driver.candidate {
+  border: 4px solid #f59e0b;
+}
+
+.driver.selected {
+  border: 5px solid #2563eb;
+
+  box-shadow:
+    0 0 0 5px rgba(37, 99, 235, 0.2),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+
+  z-index: 10;
+}
+
+/* ==========================================
+   RIDERS
+========================================== */
+
+.rider {
+  position: absolute;
+
+  width: 45px;
+  height: 45px;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #3b82f6;
+
+  color: white;
+
+  font-size: 12px;
+
+  font-weight: bold;
+
+  border: 3px solid white;
+
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+
+  cursor: pointer;
+
+  z-index: 3;
+}
+
+.rider:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.rider.selected-rider {
+  border: 4px solid #111827;
+
+  box-shadow: 0 0 0 5px rgba(17, 24, 39, 0.15);
+}
+
+/* ==========================================
+   SIDE PANEL
+========================================== */
+
+.side-panel {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.card {
+  padding: 20px;
+}
+
+.card h3 {
+  margin-top: 0;
+
+  margin-bottom: 15px;
+}
+
+.card-title-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 12px;
+}
+
+.card-title-row h3 {
+  margin: 0;
+}
+
+.card-title-row span {
+  color: #6b7280;
+
+  font-size: 12px;
+}
+
+/* ==========================================
+   DRIVERS LIST
+========================================== */
+
+.driver-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 10px 0;
+
+  border-bottom: 1px solid #eee;
+}
+
+.driver-row:last-child {
+  border-bottom: none;
+}
+
+.driver-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+.driver-name {
+  font-weight: bold;
+}
+
+.driver-location {
+  color: #9ca3af;
+
+  font-size: 11px;
+}
+
+.driver-status {
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
+.driver-status.available {
+  color: #16a34a;
+}
+
+.driver-status.busy {
+  color: #dc2626;
+}
+
+.driver-status.offered {
+  color: #d97706;
+}
+
+.driver-status.offline {
+  color: #6b7280;
+}
+
+/* ==========================================
+   RIDER SELECTOR
+========================================== */
+
+.rider-selector {
+  margin-bottom: 12px;
+}
+
+.rider-selector p {
+  margin: 0 0 8px;
+
+  font-weight: bold;
+
+  font-size: 13px;
+}
+
+.rider-buttons {
+  display: flex;
+
+  gap: 8px;
+}
+
+.rider-button {
+  flex: 1;
+
+  padding: 9px;
+
+  border: 1px solid #d1d5db;
+
+  border-radius: 7px;
+
+  background: white;
+
+  color: #374151;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.rider-button:hover {
+  background: #f3f4f6;
+}
+
+.selected-rider-button {
+  background: #2563eb;
+
+  color: white;
+
+  border-color: #2563eb;
+}
+
+/* ==========================================
+   SELECTED RIDER
+========================================== */
+
+.selected-rider-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 4px;
+
+  margin-bottom: 12px;
+
+  padding: 10px;
+
+  border-radius: 7px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+
+  font-size: 13px;
+}
+
+.selected-rider-info span {
+  color: #6b7280;
+}
+
+/* ==========================================
+   REQUEST BUTTON
+========================================== */
+
+.request-button {
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #2563eb;
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.request-button:hover {
+  background: #1d4ed8;
+}
+
+/* ==========================================
+   MATCH RESULT
+========================================== */
+
+.match-result {
+  margin-top: 15px;
+
+  padding: 12px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 8px;
+}
+
+.match-result p {
+  margin: 8px 0;
+}
+
+.result-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 12px;
+}
+
+.result-status {
+  padding: 4px 7px;
+
+  border-radius: 5px;
+
+  font-size: 10px;
+
+  font-weight: bold;
+
+  text-transform: uppercase;
+}
+
+.result-status.matched {
+  background: #fef3c7;
+
+  color: #92400e;
+}
+
+.result-status.assigned {
+  background: #dcfce7;
+
+  color: #166534;
+}
+
+.result-status.no_drivers,
+.result-status.no_more_drivers {
+  background: #fee2e2;
+
+  color: #991b1b;
+}
+
+/* ==========================================
+   CURRENT OFFER
+========================================== */
+
+.selected-driver {
+  margin-top: 15px;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  background: #eff6ff;
+
+  border: 1px solid #bfdbfe;
+}
+
+.selected-driver-name {
+  margin: 8px 0;
+
+  font-size: 20px;
+
+  font-weight: bold;
+
+  color: #2563eb;
+}
+
+/* ==========================================
+   OFFER CONTROLS
+========================================== */
+
+.offer-controls {
+  margin-top: 15px;
+
+  padding: 14px;
+
+  border-radius: 8px;
+
+  background: #fffbeb;
+
+  border: 2px solid #f59e0b;
+}
+
+.offer-controls p {
+  margin-top: 0;
+
+  text-align: center;
+}
+
+.timeout-info {
+  color: #92400e;
+
+  font-size: 12px;
+}
+
+.offer-buttons {
+  display: flex;
+
+  gap: 10px;
+}
+
+.offer-buttons button {
+  flex: 1;
+
+  padding: 11px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.accept-button {
+  background: #16a34a;
+}
+
+.accept-button:hover {
+  background: #15803d;
+}
+
+.decline-button {
+  background: #dc2626;
+}
+
+.decline-button:hover {
+  background: #b91c1c;
+}
+
+/* ==========================================
+   OFFER STATUS
+========================================== */
+
+.offer-status {
+  margin-top: 15px;
+
+  padding: 10px;
+
+  border-radius: 6px;
+
+  font-size: 14px;
+
+  font-weight: bold;
+}
+
+.accepted-status {
+  background: #dcfce7;
+
+  color: #166534;
+}
+
+.declined-status {
+  background: #fee2e2;
+
+  color: #991b1b;
+}
+
+.no-drivers {
+  margin-top: 15px;
+
+  padding: 12px;
+
+  border-radius: 8px;
+
+  background: #fef2f2;
+
+  border: 1px solid #fecaca;
+
+  color: #b91c1c;
+
+  font-size: 14px;
+}
+
+/* ==========================================
+   CANDIDATES
+========================================== */
+
+.candidate-list {
+  position: relative;
+
+  margin-top: 18px;
+}
+
+.candidate-list h4 {
+  margin: 0 0 10px;
+}
+
+.candidate-row {
+  display: grid;
+
+  grid-template-columns:
+    35px
+    1fr
+    1fr
+    1fr;
+
+  gap: 5px;
+
+  padding: 9px 6px;
+
+  border-bottom: 1px solid #e5e7eb;
+
+  font-size: 12px;
+}
+
+.candidate-selected {
+  font-weight: bold;
+
+  background: #eff6ff;
+
+  border-radius: 5px;
+}
+
+.candidate-rank {
+  color: #6b7280;
+}
+
+.candidate-header {
+  display: grid;
+
+  grid-template-columns:
+    35px
+    1fr
+    1fr
+    1fr;
+
+  gap: 5px;
+
+  padding: 6px;
+
+  color: #6b7280;
+
+  font-size: 10px;
+
+  text-transform: uppercase;
+}
+
+/* ==========================================
+   EVENT LOG
+========================================== */
+
+.event-log {
+  max-height: 280px;
+
+  overflow-y: auto;
+}
+
+.event {
+  display: flex;
+
+  gap: 10px;
+
+  padding: 9px 0;
+
+  border-bottom: 1px solid #eee;
+}
+
+.event:last-child {
+  border-bottom: none;
+}
+
+.event-source {
+  min-width: 42px;
+
+  height: fit-content;
+
+  padding: 3px 5px;
+
+  border-radius: 4px;
+
+  background: #f3f4f6;
+
+  color: #374151;
+
+  font-size: 10px;
+
+  font-weight: bold;
+
+  text-align: center;
+}
+
+.event p {
+  margin: 0;
+
+  font-size: 12px;
+
+  line-height: 1.4;
+}
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+@media (max-width: 1000px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .city-map {
+    height: 500px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    padding: 12px 15px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+
+  .header-right {
+    width: 100%;
+
+    justify-content: space-between;
+  }
+
+  .dashboard {
+    padding: 10px;
+  }
+
+  .map-panel,
+  .card {
+    padding: 14px;
+  }
+}
+/* =========================================================
+   LANDSCAPE DASHBOARD
+   ========================================================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Header stays fixed */
+.header {
+  flex-shrink: 0;
+}
+
+/* Main dashboard fills whatever space remains */
+.dashboard {
+  flex: 1;
+  min-height: 0;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+
+  gap: 16px;
+  padding: 16px;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   MAP
+   ========================================================= */
+
+.map-panel {
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+}
+
+.panel-header {
+  flex-shrink: 0;
+}
+
+.city-map {
+  flex: 1;
+  min-height: 0;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+}
+
+/* =========================================================
+   RIGHT PANEL
+   ========================================================= */
+
+.side-panel {
+  min-width: 0;
+  min-height: 0;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  padding-right: 4px;
+}
+
+/* Prevent cards from forcing the entire page taller */
+.side-panel .card {
+  flex-shrink: 0;
+}
+
+/* Event log can grow without pushing the page */
+.event-log {
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+/* =========================================================
+   DESKTOP / LANDSCAPE
+   ========================================================= */
+
+@media (min-width: 1000px) and (min-height: 600px) {
+  .dashboard {
+    grid-template-columns: minmax(0, 1fr) 380px;
+  }
+
+  .city-map {
+    aspect-ratio: auto;
+  }
+}
+
+/* =========================================================
+   SMALLER LAPTOP LANDSCAPE
+   ========================================================= */
+
+@media (min-width: 900px) and (max-height: 800px) {
+  .header {
+    padding: 10px 16px;
+  }
+
+  .dashboard {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .side-panel {
+    gap: 8px;
+  }
+
+  .side-panel .card {
+    padding: 12px;
+  }
+
+  .city-map {
+    min-height: 0;
+  }
+
+  .event-log {
+    max-height: 120px;
+  }
+}
