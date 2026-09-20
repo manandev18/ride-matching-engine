@@ -49,3 +49,14 @@ Driver Offer
 Accept / Decline / Timeout
      ↓
 Assignment / Rematching
+
+
+## 📊 Score Matrix
+
+For multiple simultaneous ride requests, the system builds a score matrix representing the suitability of each driver for each ride.
+
+![Batch Matching Score Matrix](docs/score_matrix.png)
+
+The matrix represents the matching score between each ride and available driver. Higher scores indicate a better match according to the configured scoring strategy.
+
+The score matrix can then be processed using bipartite maximum-weight matching to determine assignments across multiple rides and drivers.
